@@ -1,21 +1,21 @@
 #[allow(unused_function)]
-module sui_summaries::event;
+module certora::sui_event_summaries;
 
-use cvl::manifest::{summary, ghost_mapping};
+use cvlm::manifest::{ summary, ghost };
 
-fun cvl_manifest() {
-    ghost_mapping(b"event_count");
-    ghost_mapping(b"events");
+fun cvlm_manifest() {
+    ghost(b"event_count");
+    ghost(b"events");
 
     summary(b"emit", b"sui::event::emit");
     summary(b"num_events", b"sui::event::num_events");
     summary(b"events_by_type", b"sui::event::events_by_type");
 }
 
-//#[ghost_mapping]
+//#[ghost]
 native fun eventCount(): &mut u32;
 
-//#[ghost_mapping]
+//#[ghost]
 native fun events<T: copy + drop>(): &mut vector<T>;
 
 // #[summary(sui::event::emit)]

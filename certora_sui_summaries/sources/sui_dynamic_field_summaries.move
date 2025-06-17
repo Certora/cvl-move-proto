@@ -1,17 +1,17 @@
 #[allow(unused_function)]
-module sui_summaries::dynamic_field;
+module certora::sui_dynamic_field_summaries;
 
-use cvl::ref::{force_read, force_write};
-use cvl::assert::cvl_assume;
-use cvl::manifest::{summary, ghost_mapping, hash_fun};
+use cvlm::asserts::cvlm_assume;
+use cvlm::ghost::{ ghost_read, ghost_write };
+use cvlm::manifest::{ summary, ghost, hash };
 use sui::object::id_address;
 
-fun cvl_manifest() {
-    ghost_mapping(b"child_object_value");
-    ghost_mapping(b"child_object_present");
-    ghost_mapping(b"child_object_present_ty");
+fun cvlm_manifest() {
+    ghost(b"child_object_value");
+    ghost(b"child_object_present");
+    ghost(b"child_object_present_ty");
 
-    hash_fun(b"hash_type_and_key");
+    hash(b"hash_type_and_key");
 
     summary(b"hash_type_and_key", b"sui::dynamic_field::hash_type_and_key");
     summary(b"has_child_object", b"sui::dynamic_field::has_child_object");
@@ -20,14 +20,14 @@ fun cvl_manifest() {
     summary(b"remove_child_object", b"sui::dynamic_field::remove_child_object");
 }
 
-// #[ghost_mapping]
+// #[ghost]
 native fun child_object_value<Child: key>(parent: address, id: address): &mut Child;
-// #[ghost_mapping]
+// #[ghost]
 native fun child_object_present(parent: address, id: address): &mut bool;
-// #[ghost_mapping]
+// #[ghost]
 native fun child_object_present_ty<Child: key>(parent: address, id: address): &mut bool;
 
-// #[hash_fun, summary(sui::dynamic_field::hash_type_and_key)]
+// #[hash, summary(sui::dynamic_field::hash_type_and_key)]
 native fun hash_type_and_key<Key: copy + drop + store>(parent: address, key: Key): address;
 
 // #[summary(sui::dynamic_field::has_child_object)]
@@ -46,17 +46,17 @@ fun borrow_child_object<Child: key>(object: &UID, id: address): &Child {
 fun add_child_object<Child: key>(parent: address, child: Child) {
     let id = id_address(&child);
     let child_present = child_object_present(parent, id);
-    cvl_assume(!*child_present);
+    cvlm_assume!(!*child_present);
     *child_present = true;
     *child_object_present_ty<Child>(parent, id) = true;
-    force_write(child_object_value<Child>(parent, id), child);
+    ghost_write(child_object_value<Child>(parent, id), child);
 }
 
 // #[summary(sui::dynamic_field::remove_child_object)]
 fun remove_child_object<Child: key>(parent: address, id: address): Child {
     let child_present = child_object_present(parent, id);
-    cvl_assume(*child_present);
+    cvlm_assume!(*child_present);
     *child_present = false;
     *child_object_present_ty<Child>(parent, id) = false;
-    force_read(child_object_value(parent, id))
+    ghost_read(child_object_value(parent, id))
 }

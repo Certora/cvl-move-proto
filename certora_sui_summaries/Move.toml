@@ -1,11 +1,11 @@
 [package]
-name = "cvt_sui_summaries"
+name = "certora_sui_summaries"
 edition = "2024.beta" # edition = "legacy" to use legacy (pre-2024) Move
 # license = "Apache 2.0"
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet", override = true }
-cvl = { local = "../cvl" }
+cvl = { local = "../cvlm" }
 
 # For remote import, use the `{ git = "...", subdir = "...", rev = "..." }`.
 # Revision can be a branch, a tag, and a commit hash.
@@ -19,7 +19,7 @@ cvl = { local = "../cvl" }
 # Override = { local = "../conflicting/version", override = true }
 
 [addresses]
-sui_summaries = "0x0"
+certora = "0x436572746f7261"
 
 # Named addresses will be accessible in Move as `@name`. They're also exported:
 # for example, `std = "0x1"` is exported by the Standard Library.
