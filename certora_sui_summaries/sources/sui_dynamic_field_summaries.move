@@ -43,11 +43,14 @@ fun has_child_object(parent: address, id: address): bool {
 
 // #[summary(sui::dynamic_field::borrow_child_object)]
 fun borrow_child_object<Child: key>(object: &UID, id: address): &Child {
-    borrow_child_object_mut<Child>(object, id)
+    let parent = object.to_address();
+    assert!(*child_object_present_ty<Child>(parent, id), 0);
+    child_object_value(parent, id)
 }
 
 // #[summary(sui::dynamic_field::borrow_child_object_mut)]
-fun borrow_child_object_mut<Child: key>(object: &UID, id: address): &mut Child {
+#[allow(unused_mut_parameter)]
+fun borrow_child_object_mut<Child: key>(object: &mut UID, id: address): &mut Child {
     let parent = object.to_address();
     assert!(*child_object_present_ty<Child>(parent, id), 0);
     child_object_value(parent, id)
