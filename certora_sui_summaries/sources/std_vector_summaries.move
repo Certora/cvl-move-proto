@@ -2,7 +2,7 @@
 module certora::std_vector_summaries;
 
 use cvlm::asserts::cvlm_assume;
-use cvlm::ghost::ghost_write;
+use cvlm::ghost::{ ghost_write, destroy };
 use cvlm::nondet::nondet;
 use cvlm::manifest::summary;
 
@@ -19,4 +19,11 @@ fun reverse<Element>(v: &mut vector<Element>) {
     let len = v.length();
     ghost_write(v, nondet());
     cvlm_assume!(v.length() == len);
+}
+
+fun append<Element>(lhs: &mut vector<Element>, other: vector<Element>) {
+    let len = lhs.length();
+    ghost_write(lhs, nondet());
+    cvlm_assume!(lhs.length() == len + other.length());
+    destroy(other);
 }
