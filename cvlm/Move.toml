@@ -1,6 +1,6 @@
 [package]
 name = "cvlm"
-edition = "2024.beta" # edition = "legacy" to use legacy (pre-2024) Move
+edition = "2024.beta"
 license = "Apache 2.0"
 version = "0.0.1"
 published-at = "0x436572746f7261"
