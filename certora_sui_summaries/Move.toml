@@ -4,7 +4,7 @@ edition = "2024.beta" # edition = "legacy" to use legacy (pre-2024) Move
 # license = "Apache 2.0"
 
 [dependencies]
-Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet", override = true }
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
 cvlm = { local = "../cvlm" }
 
 # For remote import, use the `{ git = "...", subdir = "...", rev = "..." }`.
