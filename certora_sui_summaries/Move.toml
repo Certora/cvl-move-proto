@@ -1,7 +1,8 @@
 [package]
 name = "certora_sui_summaries"
 edition = "2024.beta" # edition = "legacy" to use legacy (pre-2024) Move
-# license = "Apache 2.0"
+license = "Apache 2.0"
+published-at = "0x436572746f7261"
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
