@@ -11,7 +11,7 @@ fun cvlm_manifest() {
     ghost(b"child_object_present");
     ghost(b"child_object_present_ty");
 
-    hash(b"hash_type_and_key");
+    hash(b"raw_hash_type_and_key");
 
     summary(b"hash_type_and_key", @sui, b"dynamic_field", b"hash_type_and_key");
     summary(b"has_child_object", @sui, b"dynamic_field", b"has_child_object");
@@ -28,8 +28,13 @@ native fun child_object_present(parent: address, id: address): &mut bool;
 // #[ghost]
 native fun child_object_present_ty<Child: key>(parent: address, id: address): &mut bool;
 
-// #[hash, summary(sui::dynamic_field::hash_type_and_key)]
-native fun hash_type_and_key<Key: copy + drop + store>(parent: address, key: Key): address;
+// #[hash]
+native fun raw_hash_type_and_key<Key: copy + drop + store>(parent: address, key: Key): u256;
+
+// #[summary(sui::dynamic_field::hash_type_and_key)]
+fun hash_type_and_key<Key: copy + drop + store>(parent: address, key: Key): address {
+    sui::address::from_u256(raw_hash_type_and_key(parent, key))
+}
 
 // #[summary(sui::dynamic_field::has_child_object)]
 fun has_child_object(parent: address, id: address): bool {
