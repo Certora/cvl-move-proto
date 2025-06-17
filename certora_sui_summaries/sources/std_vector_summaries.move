@@ -9,6 +9,7 @@ use cvlm::manifest::summary;
 fun cvlm_manifest() {
     summary(b"contains", @std, b"vector", b"contains");
     summary(b"reverse", @std, b"vector", b"reverse");
+    summary(b"append", @std, b"vector", b"append");
 }
 
 // #[summary(std::vector::contains)]
@@ -21,6 +22,7 @@ fun reverse<Element>(v: &mut vector<Element>) {
     cvlm_assume!(v.length() == len);
 }
 
+// #[summary(std::vector::append)]
 fun append<Element>(lhs: &mut vector<Element>, other: vector<Element>) {
     let len = lhs.length();
     ghost_write(lhs, nondet());
