@@ -16,6 +16,7 @@ fun cvlm_manifest() {
     summary(b"hash_type_and_key", @sui, b"dynamic_field", b"hash_type_and_key");
     summary(b"has_child_object", @sui, b"dynamic_field", b"has_child_object");
     summary(b"borrow_child_object", @sui, b"dynamic_field", b"borrow_child_object");
+    summary(b"borrow_child_object_mut", @sui, b"dynamic_field", b"borrow_child_object_mut");
     summary(b"add_child_object", @sui, b"dynamic_field", b"add_child_object");
     summary(b"remove_child_object", @sui, b"dynamic_field", b"remove_child_object");
 }
@@ -37,6 +38,11 @@ fun has_child_object(parent: address, id: address): bool {
 
 // #[summary(sui::dynamic_field::borrow_child_object)]
 fun borrow_child_object<Child: key>(object: &UID, id: address): &Child {
+    borrow_child_object_mut<Child>(object, id)
+}
+
+// #[summary(sui::dynamic_field::borrow_child_object_mut)]
+fun borrow_child_object_mut<Child: key>(object: &UID, id: address): &mut Child {
     let parent = object.to_address();
     assert!(*child_object_present_ty<Child>(parent, id), 0);
     child_object_value(parent, id)

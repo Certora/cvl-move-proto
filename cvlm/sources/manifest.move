@@ -56,3 +56,6 @@ public native fun ghost(ghostFunName: vector<u8>);
 
 /// Marks the function `hashFunName` as a hash function.
 public native fun hash(hashFunName: vector<u8>);
+
+/// Marks the function `accessFunName(self: &T): &mut T` as an accessor for the field `T.fieldName`.
+public native fun field_access(accessFunName: vector<u8>, fieldName: vector<u8>);
