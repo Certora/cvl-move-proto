@@ -7,9 +7,9 @@ fun cvlm_manifest() {
     ghost(b"event_count");
     ghost(b"events");
 
-    summary(b"emit", b"sui::event::emit");
-    summary(b"num_events", b"sui::event::num_events");
-    summary(b"events_by_type", b"sui::event::events_by_type");
+    summary(b"emit", @sui, b"event", b"emit");
+    summary(b"num_events", @sui, b"event", b"num_events");
+    summary(b"events_by_type", @sui, b"event", b"events_by_type");
 }
 
 //#[ghost]

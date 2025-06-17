@@ -7,8 +7,8 @@ use cvlm::manifest::summary;
 use sui::vec_map::{VecMap, size, get_entry_by_idx};
 
 fun cvlm_manifest() {
-    summary(b"get_idx", b"sui::vec_map::get_idx");
-    summary(b"get_idx_opt", b"sui::vec_map::get_idx_opt");
+    summary(b"get_idx", @sui, b"vec_map", b"get_idx");
+    summary(b"get_idx_opt", @sui, b"vec_map", b"get_idx_opt");
 }
 
 // #[summary(sui::vec_map::get_idx)]

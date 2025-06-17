@@ -40,7 +40,19 @@ module cvlm::manifest;
     ```
  */
 
-public native fun rule(funName: vector<u8>);
-public native fun summary(funName: vector<u8>, summarized: vector<u8>);
-public native fun ghost(funName: vector<u8>);
-public native fun hash(funName: vector<u8>);
+/// Marks the function `ruleFunName` as a rule.
+public native fun rule(ruleFunName: vector<u8>);
+
+/// Marks the function `summaryFunName` as a summary of the function `summarizedFunAddr`::`summarizedFunModule`::`summarizedFunName`.
+public native fun summary(
+    summaryFunName: vector<u8>, 
+    summarizedFunAddr: address, 
+    summarizedFunModule: vector<u8>, 
+    summarizedFunName: vector<u8>
+);
+
+/// Marks the function `ghostFunName` as a ghost state function.
+public native fun ghost(ghostFunName: vector<u8>);
+
+/// Marks the function `hashFunName` as a hash function.
+public native fun hash(hashFunName: vector<u8>);

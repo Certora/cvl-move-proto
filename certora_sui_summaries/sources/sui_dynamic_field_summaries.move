@@ -13,11 +13,11 @@ fun cvlm_manifest() {
 
     hash(b"hash_type_and_key");
 
-    summary(b"hash_type_and_key", b"sui::dynamic_field::hash_type_and_key");
-    summary(b"has_child_object", b"sui::dynamic_field::has_child_object");
-    summary(b"borrow_child_object", b"sui::dynamic_field::borrow_child_object");
-    summary(b"add_child_object", b"sui::dynamic_field::add_child_object");
-    summary(b"remove_child_object", b"sui::dynamic_field::remove_child_object");
+    summary(b"hash_type_and_key", @sui, b"dynamic_field", b"hash_type_and_key");
+    summary(b"has_child_object", @sui, b"dynamic_field", b"has_child_object");
+    summary(b"borrow_child_object", @sui, b"dynamic_field", b"borrow_child_object");
+    summary(b"add_child_object", @sui, b"dynamic_field", b"add_child_object");
+    summary(b"remove_child_object", @sui, b"dynamic_field", b"remove_child_object");
 }
 
 // #[ghost]
