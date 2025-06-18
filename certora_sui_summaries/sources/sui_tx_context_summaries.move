@@ -20,22 +20,35 @@ fun cvlm_manifest() {
     summary(b"native_sponsor", @sui, b"tx_context", b"native_sponsor");
 }
 
+// #[ghost]
 native fun sender(): &mut address;
+// #[ghost]
+native fun epoch(): &mut u64;
+// #[ghost]
+native fun epoch_timestamp_ms(): &mut u64;
+// #[ghost]
+native fun gas_price(): &mut u64;
+// #[ghost]
+native fun gas_budget(): &mut u64;
+// #[ghost]
+native fun sponsor(): &mut vector<address>;
+
+// #[summary(sui::tx_context::native_sender)]
 fun native_sender(): address { *sender() }
 
-native fun epoch(): &mut u64;
+// #[summary(sui::tx_context::native_epoch)]
 fun native_epoch(): u64 { *epoch() }
 
-native fun epoch_timestamp_ms(): &mut u64;
+// #[summary(sui::tx_context::native_epoch_timestamp_ms)]
 fun native_epoch_timestamp_ms(): u64 { *epoch_timestamp_ms() }
 
-native fun gas_price(): &mut u64;
+// #[summary(sui::tx_context::native_gas_price)]
 fun native_gas_price(): u64 { *gas_price() }
 
-native fun gas_budget(): &mut u64;
+// #[summary(sui::tx_context::native_gas_budget)]
 fun native_gas_budget(): u64 { *gas_budget() }
 
-native fun sponsor(): &mut vector<address>;
+// #[summary(sui::tx_context::native_sponsor)]
 fun native_sponsor(): vector<address> {
     // The sponsor vector is effectively an option<address>; it has at most one element.
     cvlm_assume!(sponsor().length() <= 1);

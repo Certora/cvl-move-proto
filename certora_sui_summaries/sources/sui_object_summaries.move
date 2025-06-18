@@ -25,7 +25,8 @@ fun record_new_uid(id: address) {
     *is_id = true;
 }
 
-public fun delete_impl(_: address) {
+// #[summary(sui::object::delete_impl)]
+fun delete_impl(_: address) {
     // The Sui implementation does some bookkeeping that isn't visible to user code
 }
 
