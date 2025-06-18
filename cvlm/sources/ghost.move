@@ -7,4 +7,4 @@ public native fun ghost_write<T>(ref: &mut T, value: T);
 public native fun ghost_read<T>(ref: &T): T;
 
 /// Consumes a value, even though T does not have the `drop` capability.
-public native fun destroy<T>(value: T);
+public native fun ghost_destroy<T>(value: T);
