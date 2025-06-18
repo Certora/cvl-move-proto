@@ -23,7 +23,7 @@ module cvlm::manifest;
         rule!(b"transfer");
 
         // Declare that the function `get_idx_summary` in this module summarizes `sui::vec_map::get_idx`.
-        summary!(b"get_idx_summary", b"sui::vec_map::get_idx");
+        summary!(b"get_idx_summary", @sui, b"vec_map", b"get_idx");
 
         // Declare that the function `hashToValue` in this module is a ghost mapping.
         ghost!(b"hashToValue");
