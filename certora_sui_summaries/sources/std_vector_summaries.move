@@ -17,6 +17,7 @@ fun contains<Element>(_: &vector<Element>, _: &Element): bool { nondet() }
 
 // #[summary(std::vector::reverse)]
 fun reverse<Element>(v: &mut vector<Element>) {
+    // TODO consider adding a cvlr function to reverse a vector
     let len = v.length();
     ghost_write(v, nondet());
     cvlm_assume!(v.length() == len);
@@ -24,6 +25,7 @@ fun reverse<Element>(v: &mut vector<Element>) {
 
 // #[summary(std::vector::append)]
 fun append<Element>(lhs: &mut vector<Element>, other: vector<Element>) {
+    // TODO consider adding a cvlr function to relate a vector region to another vector region
     let len = lhs.length();
     ghost_write(lhs, nondet());
     cvlm_assume!(lhs.length() == len + other.length());

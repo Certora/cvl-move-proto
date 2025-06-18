@@ -6,7 +6,7 @@ use cvlm::manifest::{ summary, ghost, field_access };
 
 fun cvlm_manifest() {
     ghost(b"is_id");
-    summary(b"record_new_id", @sui, b"object", b"record_new_id");
+    summary(b"record_new_uid", @sui, b"object", b"record_new_uid");
     summary(b"delete_impl", @sui, b"object", b"delete_impl");
     field_access(b"borrow_uid", b"id");
 }
@@ -17,10 +17,10 @@ native fun borrow_uid<T: key>(obj: &T): &UID;
 // #[ghost]
 native fun is_id(id: address): &mut bool;
 
-// #[summary(sui::object::record_new_id)]
-fun record_new_id(id: address) {
+// #[summary(sui::object::record_new_uid)]
+fun record_new_uid(id: address) {
     let is_id = is_id(id);
-    cvlm_assume!(!*is_id(id));
+    cvlm_assume!(!*is_id);
     *is_id = true;
 }
 
