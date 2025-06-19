@@ -51,11 +51,22 @@ public native fun summary(
     summarizedFunName: vector<u8>
 );
 
-/// Marks the function `ghostFunName` as a ghost state function.
+/// Marks the function `ghostFunName` as a ghost variable/mapping.  The function must return a reference type, may have
+/// parameters, and may have type parameters.  When called, the function will return a reference to a unique location
+/// for the given function/arguments/type arguments.
 public native fun ghost(ghostFunName: vector<u8>);
 
-/// Marks the function `hashFunName` as a hash function.
+/// Marks the function `hashFunName` as a hash function.  The function must return a single u256 value, and must have at 
+/// least one parameter and/or type parameter.  When called, the function will hash its arguments and/or type arguments, 
+/// and return a u256 value that is unique for the given function/arguments/type arguments.
 public native fun hash(hashFunName: vector<u8>);
 
-/// Marks the function `accessFunName(self: &T): &mut T` as an accessor for the field `T.fieldName`.
+/// Marks the function `accessFunName` as a field accessor for the field named `fieldName`.  This function must return a 
+/// reference type, and must take exactly one parameter of type `&S` where `S` is a struct or generic parameter.  When 
+/// called, the function will return a reference to the field named `fieldName` in the struct that is passed as the 
+/// parameter.  For generic field accessors, if a non-struct type is passed in a call to the accessor, the Prover will 
+/// fail with an error.
+/// 
+/// (This function is provided to support summarization of platform functions; for normal functions, prefer to use an 
+/// ordinary (test-only) accessor function to access fields from rules or summaries.)
 public native fun field_access(accessFunName: vector<u8>, fieldName: vector<u8>);
