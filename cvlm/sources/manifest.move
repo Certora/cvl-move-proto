@@ -64,8 +64,10 @@ public native fun hash(hashFunName: vector<u8>);
 /// Marks the function `accessFunName` as a field accessor for the field named `fieldName`.  This function must return a 
 /// reference type, and must take exactly one parameter of type `&S` where `S` is a struct or generic parameter.  When 
 /// called, the function will return a reference to the field named `fieldName` in the struct that is passed as the 
-/// parameter.  For generic field accessors, if a non-struct type is passed in a call to the accessor, the Prover will 
-/// fail with an error.
+/// parameter.  
+/// 
+/// If a type is passed to the accessor function that is not a struct, or does not have a field with the given name,
+/// or if the field is the wrong type, the Prover will raise an error.
 /// 
 /// (This function is provided to support summarization of platform functions; for normal functions, prefer to use an 
 /// ordinary (test-only) accessor function to access fields from rules or summaries.)
