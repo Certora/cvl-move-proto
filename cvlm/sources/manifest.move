@@ -4,8 +4,9 @@ module cvlm::manifest;
     CVL Manifests
 
     We'd like to be able to annotate functions, structs, and modules with metadata about how the Certora Prover should
-    treat them. However, the Move compiler does not support custom attributes, nor does it embed attribute metadata in
-    the bytecode or source info.  In order to support CVL attributes, we'd need to build our own custom Move compiler.
+    treat them. However, the Move compiler has limited support for custom attributes, and moreover does not embed
+    attribute metadata in the bytecode or source info.  In order to support CVL attributes, we'd need to build our own
+    custom Move compiler.
 
     In the interest of getting something working now, we will use a manifest function to describe this metadata instead.
     The idea is that every CVL module can contain a `cvlm_manifest` function that describes the CVL-specific attributes.
@@ -20,13 +21,13 @@ module cvlm::manifest;
 
     fun cvlm_manifest() {
         // Declare that the function `transfer` in this module is a rule.
-        rule!(b"transfer");
+        rule(b"transfer");
 
         // Declare that the function `get_idx_summary` in this module summarizes `sui::vec_map::get_idx`.
-        summary!(b"get_idx_summary", @sui, b"vec_map", b"get_idx");
+        summary(b"get_idx_summary", @sui, b"vec_map", b"get_idx");
 
         // Declare that the function `hashToValue` in this module is a ghost mapping.
-        ghost!(b"hashToValue");
+        ghost(b"hashToValue");
     }
 
     fun get_idx_summary(self: &VecMap<K,V>, key: &K): u64 {
@@ -43,7 +44,7 @@ module cvlm::manifest;
 /// Marks the function `ruleFunName` as a rule.
 public native fun rule(ruleFunName: vector<u8>);
 
-/// Marks the function `summaryFunName` as a summary of the function `summarizedFunAddr`::`summarizedFunModule`::`summarizedFunName`.
+/// Marks the function `summaryFunName` as a summary of `summarizedFunAddr`::`summarizedFunModule`::`summarizedFunName`.
 public native fun summary(
     summaryFunName: vector<u8>, 
     summarizedFunAddr: address, 
@@ -56,10 +57,50 @@ public native fun summary(
 /// for the given function/arguments/type arguments.
 public native fun ghost(ghostFunName: vector<u8>);
 
+///
 /// Marks the function `hashFunName` as a hash function.  The function must return a single u256 value, and must have at 
 /// least one parameter and/or type parameter.  When called, the function will hash its arguments and/or type arguments, 
 /// and return a u256 value that is unique for the given function/arguments/type arguments.
+/// 
+/// Example:
+/// 
+/// ```move
+///     fun cvlm_manifest() {
+///         cvlm::manifest::hash(b"foo_to_u256");
+///     }
+///     native fun foo_to_u256<T>(x: &T): u256;
+/// }
+/// ```
+/// 
 public native fun hash(hashFunName: vector<u8>);
+
+///
+/// Marks the function `shadowFunName` as a shadow mapping.  A shadow mapping replaces a struct with an alternate 
+/// type/mapping.
+/// 
+/// Consider the following example:
+/// 
+/// ```move
+///     use sui::vec_map::VecMap;
+///     fun cvlm_manifest() {
+///         cvlm::manifest::shadow(b"vec_map_shadow");
+///     }
+///     native fun vec_map_shadow<K: copy, V>(map: &VecMap<K, V>, key: &K): &mut V;
+/// ```
+/// 
+/// `vec_map_shadow` shadows the `VecMap` struct.  The prover will not allow access to the fields of `VecMap` directly,
+/// and will represent `VecMap` in the model as a mapping from keys to values, as specified by the signature of the
+/// shadow function.  
+/// 
+/// When a struct is shadowed, any function that packs, unpacks, or accesses fields of that struct must be summarized.
+/// 
+/// The shadow mapping must accept a reference to the shadowed struct as its first parameter, and may have zero or
+/// more additional parameters.  The shadow function must return a reference type, and may not return a reference to
+/// any shadowed struct.
+/// 
+/// Generic shadow functions must have the same type parameters as the structs that they shadow.
+/// 
+public native fun shadow(shadowFunName: vector<u8>);
 
 /// Marks the function `accessFunName` as a field accessor for the field named `fieldName`.  This function must return a 
 /// reference type, and must take exactly one parameter of type `&S` where `S` is a struct or generic parameter.  When 
