@@ -2,17 +2,24 @@
 module certora::std_type_name_summaries;
 
 use std::type_name::TypeName;
-use cvlm::manifest::{ summary, ghost };
+use cvlm::nondet::nondet;
+use cvlm::manifest::{ summary, shadow, hash };
 
 fun cvlm_manifest() {
-    ghost(b"type_name");
+    shadow(b"type_name_shadow");
+    hash(b"type_name_value");
     summary(b"get", @std, b"type_name", b"get");
 }
 
-// #[ghost]
-native fun type_name<T>(): &TypeName;
+// #[shadow]
+native fun type_name_shadow(typeName: &TypeName): &mut u256;
+
+// #[hash]
+native fun type_name_value<T>(): u256;
 
 // #[summary(std::type_name::get)]
 fun get<T>(): TypeName {
-    *type_name<T>()
+    let name = nondet<TypeName>();
+    *type_name_shadow(&name) = type_name_value<T>();
+    name
 }
