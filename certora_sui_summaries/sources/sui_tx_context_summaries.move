@@ -2,6 +2,7 @@
 module certora::sui_tx_context_summaries;
 
 use cvlm::asserts::cvlm_assume;
+use cvlm::nondet::nondet;
 use cvlm::manifest::{ summary, ghost };
 
 fun cvlm_manifest() {
@@ -18,6 +19,7 @@ fun cvlm_manifest() {
     summary(b"native_gas_price", @sui, b"tx_context", b"native_gas_price");
     summary(b"native_gas_budget", @sui, b"tx_context", b"native_gas_budget");
     summary(b"native_sponsor", @sui, b"tx_context", b"native_sponsor");
+    summary(b"fresh_id", @sui, b"tx_context", b"fresh_id");
 }
 
 // #[ghost]
@@ -53,4 +55,11 @@ fun native_sponsor(): vector<address> {
     // The sponsor vector is effectively an option<address>; it has at most one element.
     cvlm_assume!(sponsor().length() <= 1);
     *sponsor()
+}
+
+// #[summary(sui::tx_context::fresh_id)]
+fun fresh_id(): address {
+    let id = nondet<address>();
+    certora::sui_object_summaries::record_new_uid(id);
+    id
 }

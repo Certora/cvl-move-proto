@@ -19,7 +19,7 @@ native fun borrow_uid<T: key>(obj: &T): &UID;
 native fun is_id(id: address): &mut bool;
 
 // #[summary(sui::object::record_new_uid)]
-fun record_new_uid(id: address) {
+public fun record_new_uid(id: address) {
     let is_id = is_id(id);
     cvlm_assume!(!*is_id);
     *is_id = true;
