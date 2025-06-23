@@ -16,6 +16,7 @@ fun cvlm_manifest() {
     summary(b"get", @sui, b"vec_map", b"get");
     summary(b"try_get", @sui, b"vec_map", b"try_get");
     summary(b"get_entry_by_idx", @sui, b"vec_map", b"get_entry_by_idx");
+    summary(b"get_entry_by_idx_mut", @sui, b"vec_map", b"get_entry_by_idx_mut");
     summary(b"contains", @sui, b"vec_map", b"contains");
 }
 
@@ -104,6 +105,15 @@ fun get_entry_by_idx<K: copy, V>(self: &VecMap<K, V>, idx: u64): (&K, &V) {
     let key = &map.indexed[idx];
     let entry = shadow_entry(&map.contents, *key);
     (key, &entry.value)
+}
+
+// #[summary(sui::vec_map::get_entry_by_idx_mut)]
+fun get_entry_by_idx_mut<K: copy, V>(self: &mut VecMap<K, V>, idx: u64): (&K, &mut V) {
+    let map = shadow_vec_map(self);
+    assert!(idx < map.size);
+    let key = &map.indexed[idx];
+    let entry = shadow_entry(&map.contents, *key);
+    (key, &mut entry.value)
 }
 
 // #[summary(sui::vec_map::contains)]
