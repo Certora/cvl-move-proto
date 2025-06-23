@@ -13,4 +13,4 @@ fun cvlm_manifest() {
 fun encode(_: vector<u8>): vector<u8> { nondet() }
 
 // #[summary(sui::hex::decode)]
-fun decode(_: vector<u8>): vector<u8> { nondet()}
+fun decode(_: vector<u8>): vector<u8> { nondet() }
