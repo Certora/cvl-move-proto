@@ -6,7 +6,7 @@ public native fun cvlm_assume_checked(cond: bool);
 public native fun cvlm_assume_checked_msg(cond: bool, msg: vector<u8>);
 
 public macro fun cvlm_assert($cond: bool) {
-    cvlm_assert_checked_msg($cond);
+    cvlm_assert_checked($cond);
 }
 public macro fun cvlm_assert_msg($cond: bool, $msg: vector<u8>) {
     cvlm_assert_checked_msg($cond, $msg);
