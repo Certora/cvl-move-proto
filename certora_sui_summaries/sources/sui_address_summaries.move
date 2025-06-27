@@ -19,6 +19,7 @@ fun from_bytes(bytes: vector<u8>): address {
     assert!(bytes.length() == 32);
     let mut n = 0u256;
 
+    // It would be nice to use a loop here; we should revisit after the prover is better able to unroll Move loops.
     n = n + (bytes[00] as u256) * 0x0100000000000000000000000000000000000000000000000000000000000000u256;
     n = n + (bytes[01] as u256) * 0x0001000000000000000000000000000000000000000000000000000000000000u256;
     n = n + (bytes[02] as u256) * 0x0000010000000000000000000000000000000000000000000000000000000000u256;
