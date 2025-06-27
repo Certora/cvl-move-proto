@@ -16,7 +16,7 @@ native fun ghost_secp256k1_ecrecover(
     signature: &vector<u8>,
     msg: &vector<u8>,
     hash: u8,
-): &vector<u8>;
+): vector<u8>;
 
 // #[summary(sui::ecdsa_k1::secp256k1_ecrecover)]
 fun secp256k1_ecrecover(
@@ -24,7 +24,8 @@ fun secp256k1_ecrecover(
     msg: &vector<u8>,
     hash: u8,
 ): vector<u8> {
-    *ghost_secp256k1_ecrecover(signature, msg, hash)
+    assert!(signature.length() == 65);
+    ghost_secp256k1_ecrecover(signature, msg, hash)
 }
 
 // #[ghost]
