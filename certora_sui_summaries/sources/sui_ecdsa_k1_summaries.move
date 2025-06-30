@@ -1,7 +1,6 @@
 #[allow(unused_function)]
 module certora::sui_ecdsa_k1_summaries;
 
-use cvlm::nondet::nondet;
 use cvlm::manifest::{ summary, ghost };
 
 fun cvlm_manifest() {
