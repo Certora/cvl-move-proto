@@ -21,11 +21,11 @@ public fun recipient<T: key>(transfer: &Transfer<T>): address { transfer.recipie
 public native fun transfers<T: key>(): &mut vector<Transfer<T>>;
 
 // #[summary(sui::transfer::transfer_impl)]
-fun transfer_impl<T: key>(obj: T, _recipient: address) {
+fun transfer_impl<T: key>(obj: T, recipient: address) {
     transfers<T>().push_back(
         Transfer<T> {
             value: obj,
-            recipient: _recipient
+            recipient: recipient
         }
     );
 }
