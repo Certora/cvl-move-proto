@@ -1,5 +1,6 @@
 module cvlm::math_int;
 
+/// An arbitrary-precision signed integer type.
 public native struct MathInt has copy, drop;
 
 public fun zero(): MathInt { from_u256(0) }

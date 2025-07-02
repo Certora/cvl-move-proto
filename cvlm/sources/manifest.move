@@ -44,7 +44,10 @@ module cvlm::manifest;
 /// Marks the function `ruleFunName` as a rule.
 public native fun rule(ruleFunName: vector<u8>);
 
+///
 /// Marks the function `summaryFunName` as a summary of `summarizedFunAddr`::`summarizedFunModule`::`summarizedFunName`.
+/// The suummary function will replace the body of the summarized function in the model.
+/// 
 public native fun summary(
     summaryFunName: vector<u8>, 
     summarizedFunAddr: address, 
@@ -52,9 +55,18 @@ public native fun summary(
     summarizedFunName: vector<u8>
 );
 
-/// Marks the function `ghostFunName` as a ghost variable/mapping.  The function must return a reference type, may have
-/// parameters, and may have type parameters.  When called, the function will return a reference to a unique location
-/// for the given function/arguments/type arguments.
+///
+/// Marks the function `ghostFunName` as a ghost variable/mapping.  The function may have parameters, and may have type 
+/// parameters.  If the function returns a reference type, then when called, it will return a reference to a unique
+/// location for the given arguments and/or type arguments.  If the function has no arguments/type arguments, then it 
+/// will always return the same location.  If the function returns a value type, then it will return the value in the
+/// slot for the given arguments.
+/// 
+/// The underlying ghost variable/mapping is initialized nondeterministically for each rule.
+/// 
+/// A ghost mapping function can also be used as a summary, by applying both `ghost` and `summary` to the same function.
+/// This is one way to achieve the effect of the `NONDET` sumamry type in CVL.
+/// 
 public native fun ghost(ghostFunName: vector<u8>);
 
 ///
@@ -102,6 +114,7 @@ public native fun hash(hashFunName: vector<u8>);
 /// 
 public native fun shadow(shadowFunName: vector<u8>);
 
+///
 /// Marks the function `accessFunName` as a field accessor for the field named `fieldName`.  This function must return a 
 /// reference type, and must take exactly one parameter of type `&S` where `S` is a struct or generic parameter.  When 
 /// called, the function will return a reference to the field named `fieldName` in the struct that is passed as the 
@@ -112,4 +125,5 @@ public native fun shadow(shadowFunName: vector<u8>);
 /// 
 /// (This function is provided to support summarization of platform functions; for normal functions, prefer to use an 
 /// ordinary (test-only) accessor function to access fields from rules or summaries.)
+/// 
 public native fun field_access(accessFunName: vector<u8>, fieldName: vector<u8>);
