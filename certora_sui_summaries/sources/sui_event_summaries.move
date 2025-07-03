@@ -1,4 +1,5 @@
 #[allow(unused_function)]
+#[test_only]
 module certora::sui_event_summaries;
 
 use cvlm::manifest::{ summary, ghost };
