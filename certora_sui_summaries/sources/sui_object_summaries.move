@@ -1,7 +1,7 @@
 #[allow(unused_function)]
 module certora::sui_object_summaries;
 
-use cvlm::asserts::cvlm_assume;
+use cvlm::asserts::cvlm_assume_msg;
 use cvlm::manifest::{ summary, ghost, field_access };
 
 fun cvlm_manifest() {
@@ -21,7 +21,7 @@ native fun is_id(id: address): &mut bool;
 // #[summary(sui::object::record_new_uid)]
 public fun record_new_uid(id: address) {
     let is_id = is_id(id);
-    cvlm_assume!(!*is_id);
+    cvlm_assume_msg!(!*is_id, b"id is newly allocated");
     *is_id = true;
 }
 

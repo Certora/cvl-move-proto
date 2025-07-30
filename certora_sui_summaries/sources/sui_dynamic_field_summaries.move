@@ -1,7 +1,7 @@
 #[allow(unused_function)]
 module certora::sui_dynamic_field_summaries;
 
-use cvlm::asserts::cvlm_assume;
+use cvlm::asserts::cvlm_assume_msg;
 use cvlm::ghost::{ ghost_read, ghost_write };
 use cvlm::manifest::{ summary, ghost, hash };
 use sui::object::id_address;
@@ -66,7 +66,7 @@ fun borrow_child_object_mut<Child: key>(object: &mut UID, id: address): &mut Chi
 fun add_child_object<Child: key>(parent: address, child: Child) {
     let id = id_address(&child);
     let child_present = child_object_present(parent, id);
-    cvlm_assume!(!*child_present);
+    cvlm_assume_msg!(!*child_present, b"child object does not already exist");
     *child_present = true;
     *child_object_present_ty<Child>(parent, id) = true;
     ghost_write(child_object_value<Child>(parent, id), child);
@@ -75,7 +75,7 @@ fun add_child_object<Child: key>(parent: address, child: Child) {
 // #[summary(sui::dynamic_field::remove_child_object)]
 fun remove_child_object<Child: key>(parent: address, id: address): Child {
     let child_present = child_object_present(parent, id);
-    cvlm_assume!(*child_present);
+    cvlm_assume_msg!(*child_present, b"child object exists");
     *child_present = false;
     *child_object_present_ty<Child>(parent, id) = false;
     ghost_read(child_object_value(parent, id))
