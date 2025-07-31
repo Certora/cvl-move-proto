@@ -53,7 +53,7 @@ fun native_gas_budget(): u64 { *gas_budget() }
 // #[summary(sui::tx_context::native_sponsor)]
 fun native_sponsor(): vector<address> {
     // The sponsor vector is effectively an option<address>; it has at most one element.
-    cvlm_assume_msg!(sponsor().length() <= 1, b"sponsor vector has at most one element");
+    cvlm_assume_msg(sponsor().length() <= 1, b"sponsor vector has at most one element");
     *sponsor()
 }
 
