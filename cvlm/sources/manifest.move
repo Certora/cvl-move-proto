@@ -44,6 +44,9 @@ module cvlm::manifest;
 /// Marks the function `ruleFunName` as a rule.
 public native fun rule(ruleFunName: vector<u8>);
 
+/// Adds "sanity" rules for the public functions in module `addr`::`mod`.
+public native fun module_sanity(addr: address, mod: vector<u8>);
+
 ///
 /// Marks the function `summaryFunName` as a summary of `summarizedFunAddr`::`summarizedFunModule`::`summarizedFunName`.
 /// The suummary function will replace the body of the summarized function in the model.
@@ -81,7 +84,6 @@ public native fun ghost(ghostFunName: vector<u8>);
 ///         cvlm::manifest::hash(b"foo_to_u256");
 ///     }
 ///     native fun foo_to_u256<T>(x: &T): u256;
-/// }
 /// ```
 /// 
 public native fun hash(hashFunName: vector<u8>);
