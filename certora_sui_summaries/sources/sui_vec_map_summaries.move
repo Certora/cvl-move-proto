@@ -91,11 +91,7 @@ public fun get<K: copy, V>(self: &VecMap<K, V>, key: &K): &V {
 fun try_get<K: copy, V: copy>(self: &VecMap<K, V>, key: &K): Option<V> {
     let map = shadow_vec_map(self);
     let entry = shadow_entry(&map.contents, *key);
-    if (entry.present) {
-        option::some(ghost_read(&entry.value))
-    } else {
-        option::none()
-    }
+    certora::std_option_summaries::maybe_some(entry.present, ghost_read(&entry.value))
 }
 
 // #[summary(sui::vec_map::get_entry_by_idx)]
