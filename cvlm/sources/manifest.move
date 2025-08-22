@@ -51,9 +51,9 @@ public native fun module_sanity(addr: address, mod: vector<u8>);
 /// Names a target function for use in parametric rules.
 public native fun target(module_address: address, module_name: vector<u8>, function_name: vector<u8>);
 
-/// Names a function in the current module which can be used to invoke a target function a parametric rule. The 
-/// function must be a native function.  The first parameter must be of type `cvlr::function::Function`.  Any additional 
-/// parameters will be forwarded to the invoked function.  There can be only one parameter of any given type.
+/// Names a function in the current module which can be used to invoke a target function from a parametric rule. The 
+/// invoker function must be a `native fun`.  The first parameter must be of type `cvlr::function::Function`.  Any 
+/// additional parameters will be forwarded to the invoked function.
 public native fun invoker(function_name: vector<u8>);
 
 /// Adds sanity rules for this module's target functions.
