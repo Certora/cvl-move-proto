@@ -45,12 +45,24 @@ module cvlm::manifest;
 public native fun rule(ruleFunName: vector<u8>);
 
 /// Adds "sanity" rules for the public functions in module `addr`::`mod`.
+#[deprecated(note = b"`module_sanity` includes test-only functions, which is not recommended. Instead, use the `target` and `target_sanity` functions.")]
 public native fun module_sanity(addr: address, mod: vector<u8>);
 
+/// Names a target function for use in parametric rules.
+public native fun target(module_address: address, module_name: vector<u8>, function_name: vector<u8>);
+
+/// Names a function in the current module which can be used to invoke a target function a parametric rule. The 
+/// function must be a native function.  The first parameter must be of type `cvlr::function::Function`.  Any additional 
+/// parameters will be forwarded to the invoked function.  There can be only one parameter of any given type.
+public native fun invoker(function_name: vector<u8>);
+
+/// Adds sanity rules for this module's target functions.
+public native fun target_sanity();
+    
 ///
 /// Marks the function `summaryFunName` as a summary of `summarizedFunAddr`::`summarizedFunModule`::`summarizedFunName`.
-/// The suummary function will replace the body of the summarized function in the model.
-/// 
+/// The summary function will replace the body of the summarized function in the model.
+///
 public native fun summary(
     summaryFunName: vector<u8>, 
     summarizedFunAddr: address, 
