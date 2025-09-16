@@ -46,6 +46,7 @@ native fun peel_value_map<T>(remainder: vector<u8>): T;
 // provide consistent results.
 native fun peel_remainder_map<T>(remainder: vector<u8>): vector<u8>;
 
+#[allow(unused_mut_parameter)]
 fun peel<T>(bcs: &mut BCS): T {
     let shadow = shadow_bcs(bcs);
     let prev_vec = *shadow;
