@@ -22,16 +22,17 @@ fun cvlm_manifest() {
 
 // Replace the BCS struct with a simple vector, holding the remaining bytes to be deserialized.  Unlike the Sui BCS
 // implementation, we don't reverse this vector.
-native fun shadow_bcs(_: &BCS): &mut vector<u8>;
+native fun shadow_bcs(_: &mut BCS): &mut vector<u8>;
 
 fun new(bytes: vector<u8>): BCS { 
-    let bcs = nondet<BCS>();
-    *shadow_bcs(&bcs) = bytes;
+    let mut bcs = nondet<BCS>();
+    *shadow_bcs(&mut bcs) = bytes;
     bcs
 }
 
 fun into_remainder_bytes(bcs: BCS): vector<u8> { 
-    *shadow_bcs(&bcs)
+    let mut bcs = bcs;
+    *shadow_bcs(&mut bcs)
 }
 
 // Maps remaining bytes to the size of the next value of type T.  Note that we don't model the size precisely, but just
@@ -46,7 +47,6 @@ native fun peel_value_map<T>(remainder: vector<u8>): T;
 // provide consistent results.
 native fun peel_remainder_map<T>(remainder: vector<u8>): vector<u8>;
 
-#[allow(unused_mut_parameter)]
 fun peel<T>(bcs: &mut BCS): T {
     let shadow = shadow_bcs(bcs);
     let prev_vec = *shadow;
