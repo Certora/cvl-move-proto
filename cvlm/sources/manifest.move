@@ -41,12 +41,8 @@ module cvlm::manifest;
     ```
  */
 
-/// Marks the function `ruleFunName` as a rule.
-public native fun rule(ruleFunName: vector<u8>);
-
-/// Adds "sanity" rules for the public functions in module `addr`::`mod`.
-#[deprecated(note = b"`module_sanity` includes test-only functions, which is not recommended. Instead, use the `target` and `target_sanity` functions.")]
-public native fun module_sanity(addr: address, mod: vector<u8>);
+/// Marks the function `function_name` as a rule.
+public native fun rule(function_name: vector<u8>);
 
 /// Names a target function for use in parametric rules.
 public native fun target(module_address: address, module_name: vector<u8>, function_name: vector<u8>);
@@ -60,18 +56,19 @@ public native fun invoker(function_name: vector<u8>);
 public native fun target_sanity();
     
 ///
-/// Marks the function `summaryFunName` as a summary of `summarizedFunAddr`::`summarizedFunModule`::`summarizedFunName`.
-/// The summary function will replace the body of the summarized function in the model.
+/// Marks the function `summary_function_name` as a summary of 
+/// `summarized_function_address`::`summarized_function_module`::`summarized_function_name`.  The summary function will 
+/// replace the body of the summarized function in the model.
 ///
 public native fun summary(
-    summaryFunName: vector<u8>, 
-    summarizedFunAddr: address, 
-    summarizedFunModule: vector<u8>, 
-    summarizedFunName: vector<u8>
+    summary_function_name: vector<u8>, 
+    summarized_function_address: address, 
+    summarized_function_module: vector<u8>, 
+    summarized_function_name: vector<u8>
 );
 
 ///
-/// Marks the function `ghostFunName` as a ghost variable/mapping.  The function may have parameters, and may have type 
+/// Marks the function `function_name` as a ghost variable/mapping.  The function may have parameters, and may have type 
 /// parameters.  If the function returns a reference type, then when called, it will return a reference to a unique
 /// location for the given arguments and/or type arguments.  If the function has no arguments/type arguments, then it 
 /// will always return the same location.  If the function returns a value type, then it will return the value in the
@@ -82,12 +79,12 @@ public native fun summary(
 /// A ghost mapping function can also be used as a summary, by applying both `ghost` and `summary` to the same function.
 /// This is one way to achieve the effect of the `NONDET` sumamry type in CVL.
 /// 
-public native fun ghost(ghostFunName: vector<u8>);
+public native fun ghost(function_name: vector<u8>);
 
 ///
-/// Marks the function `hashFunName` as a hash function.  The function must return a single u256 value, and must have at 
-/// least one parameter and/or type parameter.  When called, the function will hash its arguments and/or type arguments, 
-/// and return a u256 value that is unique for the given function/arguments/type arguments.
+/// Marks the function `function_name` as a hash function.  The function must return a single u256 value, and must have 
+/// at least one parameter and/or type parameter.  When called, the function will hash its arguments and/or type 
+/// arguments, and return a u256 value that is unique for the given function/arguments/type arguments.
 /// 
 /// Example:
 /// 
@@ -98,10 +95,10 @@ public native fun ghost(ghostFunName: vector<u8>);
 ///     native fun foo_to_u256<T>(x: &T): u256;
 /// ```
 /// 
-public native fun hash(hashFunName: vector<u8>);
+public native fun hash(function_name: vector<u8>);
 
 ///
-/// Marks the function `shadowFunName` as a shadow mapping.  A shadow mapping replaces a struct with an alternate 
+/// Marks the function `function_name` as a shadow mapping.  A shadow mapping replaces a struct with an alternate 
 /// type/mapping.
 /// 
 /// Consider the following example:
@@ -126,12 +123,12 @@ public native fun hash(hashFunName: vector<u8>);
 /// 
 /// Generic shadow functions must have the same type parameters as the structs that they shadow.
 /// 
-public native fun shadow(shadowFunName: vector<u8>);
+public native fun shadow(function_name: vector<u8>);
 
 ///
-/// Marks the function `accessFunName` as a field accessor for the field named `fieldName`.  This function must return a 
-/// reference type, and must take exactly one parameter of type `&S` where `S` is a struct or generic parameter.  When 
-/// called, the function will return a reference to the field named `fieldName` in the struct that is passed as the 
+/// Marks the function `function_name` as a field accessor for the field named `field_name`.  This function must return 
+/// a reference type, and must take exactly one parameter of type `&S` where `S` is a struct or generic parameter.  When 
+/// called, the function will return a reference to the field named `field_name` in the struct that is passed as the 
 /// parameter.  
 /// 
 /// If a type is passed to the accessor function that is not a struct, or does not have a field with the given name,
@@ -140,4 +137,4 @@ public native fun shadow(shadowFunName: vector<u8>);
 /// (This function is provided to support summarization of platform functions; for normal functions, prefer to use an 
 /// ordinary (test-only) accessor function to access fields from rules or summaries.)
 /// 
-public native fun field_access(accessFunName: vector<u8>, fieldName: vector<u8>);
+public native fun field_access(function_name: vector<u8>, field_name: vector<u8>);

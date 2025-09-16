@@ -17,16 +17,16 @@ fun cvlm_manifest() {
 }
 
 // #[shadow]
-native fun type_name_shadow(typeName: &TypeName): &mut u256;
+native fun type_name_shadow(type_name: &TypeName): &mut u256;
 
 // #[hash]
 native fun type_name_value<T>(): u256;
 
 // #[ghost]
-native fun type_name_name(typeName: &TypeName): &String;
+native fun type_name_name(type_name: &TypeName): &String;
 
 // #[ghost]
-native fun type_name_address(typeName: &TypeName): &String;
+native fun type_name_address(type_name: &TypeName): &String;
 
 // #[summary(std::type_name::get)]
 fun get<T>(): TypeName {
@@ -39,4 +39,4 @@ fun get<T>(): TypeName {
 fun into_string(self: TypeName): String { *type_name_name(&self) }
 
 // #[summary(std::type_name::get_address)]
-fun get_address(typeName: &TypeName): String { *type_name_address(typeName) }
+fun get_address(type_name: &TypeName): String { *type_name_address(type_name) }
