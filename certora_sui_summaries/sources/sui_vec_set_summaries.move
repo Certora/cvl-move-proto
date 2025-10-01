@@ -13,6 +13,7 @@ fun cvlm_manifest() {
     summary(b"insert", @sui, b"vec_set", b"insert");
     summary(b"remove", @sui, b"vec_set", b"remove");
     summary(b"contains", @sui, b"vec_set", b"contains");
+    summary(b"singleton", @sui, b"vec_set", b"singleton");
 }
 
 public struct ShadowVecSet<K: copy + drop> has copy, drop, store {
@@ -62,4 +63,13 @@ fun remove<K: copy + drop>(self: &mut VecSet<K>, key: &K) {
 fun contains<K: copy + drop>(self: &VecSet<K>, key: &K): bool {
     let set = shadow_vec_set(self);
     *present(&set.contents, *key)
+}
+
+// #[summary(sui::vec_set::singleton)]
+public fun singleton<K: copy + drop>(key: K): VecSet<K> {
+    let set = nondet<VecSet<K>>();
+    let shadow = shadow_vec_set(&set);
+    *present(&shadow.contents, key) = true;
+    shadow.size = 1;
+    set
 }
