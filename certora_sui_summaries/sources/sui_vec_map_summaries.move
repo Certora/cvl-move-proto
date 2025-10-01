@@ -10,6 +10,7 @@ fun cvlm_manifest() {
     shadow(b"shadow_vec_map");
     shadow(b"shadow_entry");
     summary(b"size", @sui, b"vec_map", b"size");
+    summary(b"empty", @sui, b"vec_map", b"empty");
     summary(b"insert", @sui, b"vec_map", b"insert");
     summary(b"remove", @sui, b"vec_map", b"remove");
     summary(b"get_mut", @sui, b"vec_map", b"get_mut");
@@ -43,6 +44,12 @@ fun size<K: copy, V>(self: &VecMap<K, V>): u64 {
     shadow_vec_map(self).size
 }
 
+public fun empty<K: copy, V>(): VecMap<K, V> {
+    let map = nondet<VecMap<K, V>>();
+    let shadow = shadow_vec_map(&map);
+    shadow.size = 0;
+    map
+}
 
 // #[summary(sui::vec_map::insert)]
 fun insert<K: copy, V>(self: &mut VecMap<K, V>, key: K, value: V) {

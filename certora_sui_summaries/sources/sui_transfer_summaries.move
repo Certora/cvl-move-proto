@@ -3,11 +3,14 @@ module certora::sui_transfer_summaries;
 
 use cvlm::ghost::ghost_destroy;
 use cvlm::manifest::{ summary, ghost };
+use cvlm::ghost;
 
 fun cvlm_manifest() {
     ghost(b"transfers");
+    ghost(b"shares");
     summary(b"transfer_impl", @sui, b"transfer", b"transfer_impl");
     summary(b"freeze_object_impl", @sui, b"transfer", b"freeze_object_impl");
+    summary(b"share_object_impl", @sui, b"transfer", b"share_object_impl");
 }
 
 public struct Transfer<T: key> {
@@ -33,4 +36,13 @@ fun transfer_impl<T: key>(obj: T, recipient: address) {
 // #[summary(sui::transfer::freeze_object_impl)]
 fun freeze_object_impl<T: key>(obj: T) {
     ghost_destroy(obj);
+}
+
+
+// #[ghost]
+public native fun shares<T: key>(): &mut vector<T>;
+
+// #[summary(sui::transfer::share_object_impl)]
+fun share_object_impl<T: key>(obj: T) {
+    shares<T>().push_back(obj);
 }
