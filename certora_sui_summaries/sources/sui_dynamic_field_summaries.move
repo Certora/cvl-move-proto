@@ -1,7 +1,6 @@
 #[allow(unused_function)]
 module certora::sui_dynamic_field_summaries;
 
-use cvlm::asserts::cvlm_assume_msg;
 use cvlm::ghost::{ ghost_read, ghost_write };
 use cvlm::manifest::{ summary, ghost, hash };
 use std::type_name;

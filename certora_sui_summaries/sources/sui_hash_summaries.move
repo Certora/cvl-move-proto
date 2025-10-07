@@ -1,9 +1,7 @@
 #[allow(unused_function)]
 module certora::sui_hash_summaries;
 
-use cvlm::nondet::nondet;
 use cvlm::manifest::{ summary, ghost };
-use cvlm::ghost;
 
 fun cvlm_manifest() {
     ghost(b"keccak256");

@@ -7,4 +7,4 @@ fun cvlm_manifest() {
     summary(b"print", @std, b"debug", b"print");
 }
 
-fun print<T>(x: &T) {}
+fun print<T>(_: &T) {}

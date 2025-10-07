@@ -5,8 +5,6 @@ use cvlm::ghost::{ ghost_read, ghost_write, ghost_destroy };
 use cvlm::manifest::{ shadow, summary };
 use cvlm::nondet::nondet;
 use sui::vec_map::VecMap;
-use cvlm::nondet;
-use cvlm::asserts::cvlm_assume_msg;
 
 fun cvlm_manifest() {    
     shadow(b"shadow_vec_map");
@@ -22,6 +20,7 @@ fun cvlm_manifest() {
     summary(b"get_entry_by_idx_mut", @sui, b"vec_map", b"get_entry_by_idx_mut");
     summary(b"contains", @sui, b"vec_map", b"contains");
     summary(b"keys", @sui, b"vec_map", b"keys");
+    summary(b"into_keys_values", @sui, b"vec_map", b"into_keys_values");
 }
 
 public struct ShadowVecMap<K: copy, V> has copy, drop, store {
@@ -130,6 +129,14 @@ fun contains<K: copy, V>(self: &VecMap<K, V>, key: &K): bool {
 }
 
 // #[summary(sui::vec_map::keys)]
-public fun keys<K: copy, V>(self: &VecMap<K, V>): vector<K> {
+fun keys<K: copy, V>(self: &VecMap<K, V>): vector<K> {
     shadow_vec_map(self).indexed
+}
+
+// #[summary(sui::vec_map::into_keys_values)]
+fun into_keys_values<K: copy, V>(self: VecMap<K, V>): (vector<K>, vector<V>) {
+    let map = shadow_vec_map(&self);
+    let keys = map.indexed;
+    ghost_destroy(self);
+    (keys, nondet())
 }
