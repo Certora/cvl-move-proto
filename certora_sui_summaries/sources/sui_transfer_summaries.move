@@ -3,7 +3,6 @@ module certora::sui_transfer_summaries;
 
 use cvlm::ghost::ghost_destroy;
 use cvlm::manifest::{ summary, ghost };
-use cvlm::ghost;
 
 fun cvlm_manifest() {
     ghost(b"transfers");
