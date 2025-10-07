@@ -138,3 +138,16 @@ public native fun shadow(function_name: vector<u8>);
 /// ordinary (test-only) accessor function to access fields from rules or summaries.)
 /// 
 public native fun field_access(function_name: vector<u8>, field_name: vector<u8>);
+
+/// Marks the function `function_name` as a function accessor for the function named `target_function` in the module 
+/// `target_module` at address `target_address`.  This function must have the same signature as the target function.
+/// When called, the function will invoke the target function.
+///
+/// (This function is provided to support summarization of platform functions; for normal functions, prefer to use an 
+/// ordinary (test-only) invoker function to call private functions from rules or summaries.)
+public native fun function_access(
+    function_name: vector<u8>, 
+    target_address: address, 
+    target_module: vector<u8>, 
+    target_function: vector<u8>
+);
