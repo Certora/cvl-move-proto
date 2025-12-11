@@ -151,3 +151,6 @@ public native fun function_access(
     target_module: vector<u8>, 
     target_function: vector<u8>
 );
+
+/// Marks the function `function_name` as a watcher.
+public native fun watcher(function_name: vector<u8>);
