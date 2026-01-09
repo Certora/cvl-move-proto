@@ -3,7 +3,7 @@ name = "certora_sui_summaries"
 edition = "2024.beta"
 license = "Apache 2.0"
 version = "0.0.1"
-published-at = "0x436572746f7261"
+published-at = "0x436572746f726102"
 
 [dependencies]
 MoveStdlib = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/move-stdlib", rev = "framework/testnet" }
@@ -12,4 +12,4 @@ SuiSystem = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/su
 cvlm = { local = "../cvlm" }
 
 [addresses]
-certora = "0x436572746f7261"
+certora = "0x436572746f726102"
