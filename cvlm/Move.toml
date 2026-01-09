@@ -3,11 +3,11 @@ name = "cvlm"
 edition = "2024.beta"
 license = "Apache 2.0"
 version = "0.0.1"
-published-at = "0x436572746f726101"
+published-at = "0x436572746f7261"
 
 [dependencies]
 MoveStdlib = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/move-stdlib", rev = "framework/testnet" }
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
 
 [addresses]
-cvlm = "0x436572746f726101"
+cvlm = "0x436572746f7261"
