@@ -44,6 +44,16 @@ module cvlm::manifest;
 /// Marks the function `function_name` as a rule.
 public native fun rule(function_name: vector<u8>);
 
+///
+/// Marks the function `function_name` as a rule.  In addition to any assertions in the rule definition, the rule will
+/// also assert that no code invoked by the rule can abort.
+///
+/// Note that the soundness of this abort check depends on the accuracy of the abort behavior in any summaries that
+/// are active when the rule is checked, including summaries of platform functions.  I.e., if a platform function 
+/// summary does not abort, then the rule may pass even if the actual platform function can abort.
+///
+public native fun rule_no_abort(function_name: vector<u8>);
+
 /// Names a target function for use in parametric rules.
 public native fun target(module_address: address, module_name: vector<u8>, function_name: vector<u8>);
 
