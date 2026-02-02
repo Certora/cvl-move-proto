@@ -15,6 +15,8 @@ fun cvlm_manifest() {
     ghost(b"type_name_module");
     summary(b"get", @std, b"type_name", b"get");
     summary(b"get_with_original_ids", @std, b"type_name", b"get_with_original_ids");
+    summary(b"get", @std, b"type_name", b"with_defining_ids");
+    summary(b"get_with_original_ids", @std, b"type_name", b"with_original_ids");
     summary(b"into_string", @std, b"type_name", b"into_string");
     summary(b"get_address", @std, b"type_name", b"get_address");
     summary(b"get_module", @std, b"type_name", b"get_module");
