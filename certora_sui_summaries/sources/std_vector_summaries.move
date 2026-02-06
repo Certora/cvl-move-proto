@@ -6,8 +6,8 @@ use cvlm::ghost::{ ghost_write, ghost_destroy };
 use cvlm::manifest::{ summary, ghost };
 
 fun cvlm_manifest() {
-    summary(b"contains", @std, b"vector", b"contains");
-    ghost(b"contains");
+//    summary(b"contains", @std, b"vector", b"contains");
+//    ghost(b"contains");
     summary(b"reverse", @std, b"vector", b"reverse");
     ghost(b"reverse_ghost");
     summary(b"append", @std, b"vector", b"append");
@@ -15,7 +15,7 @@ fun cvlm_manifest() {
 }
 
 // #[summary(std::vector::contains), ghost]
-native fun contains<Element>(v: &vector<Element>, e: &Element): bool;
+//native fun contains<Element>(v: &vector<Element>, e: &Element): bool;
 
 
 // #ghost
