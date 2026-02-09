@@ -3,11 +3,13 @@ module certora::sui_object_summaries;
 
 use cvlm::asserts::cvlm_assume_msg;
 use cvlm::manifest::{ summary, ghost, field_access };
+use cvlm::nondet::is_nondet_type;
 
 fun cvlm_manifest() {
     ghost(b"is_id");
     ghost(b"deleted");
-    field_access(b"borrow_uid", b"id");
+    field_access(b"borrow_uid_field", b"id");
+    ghost(b"borrow_nondet_type_uid");
     summary(b"record_new_uid", @sui, b"object", b"record_new_uid");
     summary(b"delete_impl", @sui, b"object", b"delete_impl");
     summary(b"borrow_uid", @sui, b"object", b"borrow_uid");
@@ -15,10 +17,23 @@ fun cvlm_manifest() {
 }
 
 
+// #[ghost]
 public native fun deleted(id: address): &mut bool;
 
+// #[field_access(id)]
+native fun borrow_uid_field<T: key>(obj: &T): &UID;
+
+// #[ghost]
+native fun borrow_nondet_type_uid<T>(): &UID;
+
 // #[field_access(id), summary(sui::object::borrow_uid)]
-native fun borrow_uid<T: key>(obj: &T): &UID;
+fun borrow_uid<T: key>(obj: &T): &UID {
+    if (is_nondet_type<T>()) {
+        borrow_nondet_type_uid<T>()
+    } else {
+        borrow_uid_field(obj)
+    }
+}
 
 // #[ghost]
 native fun is_id(id: address): &mut bool;
