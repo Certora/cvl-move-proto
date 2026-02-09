@@ -24,12 +24,12 @@ public native fun deleted(id: address): &mut bool;
 native fun borrow_uid_field<T: key>(obj: &T): &UID;
 
 // #[ghost]
-native fun borrow_nondet_type_uid<T>(): &UID;
+native fun borrow_nondet_type_uid<T>(obj: &T): &UID;
 
 // #[field_access(id), summary(sui::object::borrow_uid)]
 fun borrow_uid<T: key>(obj: &T): &UID {
     if (is_nondet_type<T>()) {
-        borrow_nondet_type_uid<T>()
+        borrow_nondet_type_uid(obj)
     } else {
         borrow_uid_field(obj)
     }
