@@ -143,6 +143,11 @@ public native fun shadow(function_name: vector<u8>);
 /// 
 /// If a type is passed to the accessor function that is not a struct, or does not have a field with the given name,
 /// or if the field is the wrong type, the Prover will raise an error.
+///
+/// Note that "nondeterministic types" are not supported as type parameters to field accessors, since the Prover does
+/// not have a way to determine what fields such types have.  Summaries can work around this by using 
+/// `cvlm::nondet::is_nondet_type` to check for nondeterministic types, and take appropriate alternate actions in that 
+/// case.
 /// 
 /// (This function is provided to support summarization of platform functions; for normal functions, prefer to use an 
 /// ordinary (test-only) accessor function to access fields from rules or summaries.)
