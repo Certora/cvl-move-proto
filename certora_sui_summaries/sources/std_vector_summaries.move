@@ -19,7 +19,7 @@ fun cvlm_manifest() {
 // #[summary(std::vector::contains), ghost]
 native fun contains<Element>(v: &vector<Element>, e: &Element): bool;
 
-native fun index_of_element(v: &vector<Element>, e: &Element): u64;
+native fun index_of_element<Element>(v: &vector<Element>, e: &Element): u64;
 
 fun index_of<Element>(v: &vector<Element>, e: &Element): (bool, u64) {
     if (contains(v, e)) {
