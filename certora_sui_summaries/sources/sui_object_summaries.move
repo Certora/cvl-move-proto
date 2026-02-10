@@ -26,7 +26,7 @@ native fun borrow_uid_field<T: key>(obj: &T): &UID;
 // #[ghost]
 native fun borrow_nondet_type_uid<T>(obj: &T): &UID;
 
-// #[field_access(id), summary(sui::object::borrow_uid)]
+// #[summary(sui::object::borrow_uid)]
 fun borrow_uid<T: key>(obj: &T): &UID {
     if (is_nondet_type<T>()) {
         borrow_nondet_type_uid(obj)
