@@ -2,7 +2,7 @@
 module certora::std_vector_summaries;
 
 use cvlm::asserts::cvlm_assume_msg;
-use cvlm::ghost::{ ghost_write, ghost_destroy };
+use cvlm::ghost::{ ghost_read, ghost_write, ghost_destroy };
 use cvlm::manifest::{ summary, ghost };
 
 fun cvlm_manifest() {
