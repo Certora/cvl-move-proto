@@ -8,6 +8,8 @@ use cvlm::manifest::{ summary, ghost };
 fun cvlm_manifest() {
     summary(b"contains", @std, b"vector", b"contains");
     ghost(b"contains");
+    ghost(b"index_of_element");
+    summary(b"index_of", @std, b"vector", b"index_of");
     summary(b"reverse", @std, b"vector", b"reverse");
     ghost(b"reverse_ghost");
     summary(b"append", @std, b"vector", b"append");
@@ -17,6 +19,18 @@ fun cvlm_manifest() {
 // #[summary(std::vector::contains), ghost]
 native fun contains<Element>(v: &vector<Element>, e: &Element): bool;
 
+native fun index_of_element(v: &vector<Element>, e: &Element): u64;
+
+fun index_of<Element>(v: &vector<Element>, e: &Element): (bool, u64) {
+    if (contains(v, e)) {
+        let index = index_of_element(v, e);
+        cvlm_assume_msg(index < v.length(), b"index is within bounds");
+        cvlm_assume_msg(&v[index] == e, b"element at index matches searched element");
+        (true, index)
+    } else {
+        (false, 0)
+    }
+}
 
 // #ghost
 native fun reverse_ghost<Element>(v: &vector<Element>): vector<Element>;
