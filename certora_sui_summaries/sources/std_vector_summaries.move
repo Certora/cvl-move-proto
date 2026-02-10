@@ -65,7 +65,7 @@ native fun remove_ghost<Element>(v: &vector<Element>, i: u64): vector<Element>;
 // #[summary(std::vector::remove)]
 public fun remove<Element>(v: &mut vector<Element>, i: u64): Element {
     let v_length = v.length();
-    let removed = v[i];
+    let removed = ghost_read(&v[i]);
     v = remove_ghost(v, i);
     cvlm_assume_msg(v.length() == v_length - 1, b"length decreases by one after removal");
     removed
