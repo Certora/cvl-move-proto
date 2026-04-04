@@ -65,6 +65,10 @@ public native fun invoker(function_name: vector<u8>);
 /// Adds sanity rules for this module's target functions.
 public native fun target_sanity();
     
+/// Names an enum type in the current module which can serve as a parametric rule parameter.  Rules with parameters
+/// of this type will be instantiated separately for each variant of the enum.
+public native fun rule_parameter(enum_name: vector<u8>);
+
 ///
 /// Marks the function `summary_function_name` as a summary of 
 /// `summarized_function_address`::`summarized_function_module`::`summarized_function_name`.  The summary function will 
