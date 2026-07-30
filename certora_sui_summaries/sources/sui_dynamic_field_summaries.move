@@ -32,10 +32,10 @@ public struct NotPresent {}
 
 
 // #[hash]
-native fun raw_hash_type_and_key<Key: copy + drop + store>(parent: address, key: Key): u256;
+native fun raw_hash_type_and_key<Key: copy + drop>(parent: address, key: Key): u256;
 
 // #[summary(sui::dynamic_field::hash_type_and_key)]
-fun hash_type_and_key<Key: copy + drop + store>(parent: address, key: Key): address {
+fun hash_type_and_key<Key: copy + drop>(parent: address, key: Key): address {
     sui::address::from_u256(raw_hash_type_and_key(parent, key))
 }
 
