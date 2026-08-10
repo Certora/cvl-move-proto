@@ -10,7 +10,7 @@ fun cvlm_manifest() {
     ghost(b"deleted");
     field_access(b"borrow_uid_field", b"id");
     ghost(b"borrow_nondet_type_uid");
-    summary(b"record_new_uid", @sui, b"object", b"record_new_uid");
+    // summary(b"record_new_uid", @sui, b"object", b"record_new_uid");
     summary(b"delete_impl", @sui, b"object", b"delete_impl");
     summary(b"borrow_uid", @sui, b"object", b"borrow_uid");
     
