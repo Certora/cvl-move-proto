@@ -11,6 +11,7 @@ fun cvlm_manifest() {
     field_access(b"borrow_uid_field", b"id");
     ghost(b"borrow_nondet_type_uid");
     // summary(b"record_new_uid", @sui, b"object", b"record_new_uid");
+    summary(b"record_new_uid_from_hash", @sui, b"object", b"record_new_uid_from_hash");
     summary(b"delete_impl", @sui, b"object", b"delete_impl");
     summary(b"borrow_uid", @sui, b"object", b"borrow_uid");
     
@@ -41,6 +42,13 @@ native fun is_id(id: address): &mut bool;
 // #[summary(sui::object::record_new_uid)]
 public fun record_new_uid(id: address) {
     let is_id = is_id(id);
+    cvlm_assume_msg(!*is_id, b"id is newly allocated");
+    *is_id = true;
+}
+
+// #[summary(sui::object::record_new_uid_from_hash)]
+public fun record_new_uid_from_hash(parent: address, bytes: address) {
+    let is_id = is_id(bytes);
     cvlm_assume_msg(!*is_id, b"id is newly allocated");
     *is_id = true;
 }
